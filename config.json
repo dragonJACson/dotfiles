@@ -1,0 +1,109 @@
+{
+  "log": {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "debug"
+  },
+  "outboundDetour": [
+    {
+      "protocol": "freedom", 
+      "settings": { }, 
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": { },
+      "tag": "block"
+    },
+    {
+      "protocol": "socks",
+      "settings": {
+        "servers": [{
+          "address": "127.0.0.1",
+	  "port": 2333
+	}]
+      },
+      "tag": "transit"
+    }
+  ],
+  "inboundDetour": [
+    {
+      "port": 1088, 
+      "listen": "127.0.0.1", 
+      "protocol": "socks", 
+      "settings": {
+        "auth": "noauth", 
+        "timeout": 300, 
+        "udp": true
+      }
+    }
+  ], 
+  "outbound": {
+    "protocol": "vmess", 
+    "settings": {
+      "vnext": [
+        {
+          "users": [
+            {
+              "id": "3a759c97-4482-4853-beab-b99fab7a0fa8", 
+              "alterId": 64, 
+              "security": "aes-128-gcm"
+            }
+          ], 
+          "address": "ttrss.dreamof.net", 
+          "port": 10000
+        }
+      ]
+    }, 
+    "streamSettings": {
+      "network": "tcp", 
+      "security": "tls"
+    }, 
+    "proxySettings": {
+      "tag": "transit"
+    },
+    "tag": "proxy"
+  },
+  "dns": {
+    "servers": [
+      "localhost"
+    ]
+  }, 
+  "inbound": {
+    "port": 1086, 
+    "listen": "127.0.0.1", 
+    "protocol": "http", 
+    "settings": {
+      "timeout": 300
+    }
+  }, 
+  "routing": {
+    "settings": {
+      "rules": [
+        {
+          "type": "field",
+	  "ip": [
+	    "192.168.0.0/16",
+	    "10.0.0.0/8",
+	    "172.16.0.0/12",
+	    "127.0.0.0/8",
+	    "geoip:cn",
+	    "103.88.47.240/24",
+	    "47.91.28.17/24"
+	  ],
+          "outboundTag": "direct"
+        }, 
+        {
+          "type": "field",
+	  "domain": [
+	    "geosite:cn"
+	  ],
+          "outboundTag": "direct"
+        }
+      ], 
+      "domainStrategy": "IPIfNonMatch"
+    }, 
+    "strategy": "rules"
+  }
+}
+
