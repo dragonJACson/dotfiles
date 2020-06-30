@@ -6,8 +6,8 @@
   },
   "outboundDetour": [
     {
-      "protocol": "freedom", 
-      "settings": { }, 
+      "protocol": "freedom",
+      "settings": { },
       "tag": "direct"
     },
     {
@@ -20,90 +20,78 @@
       "settings": {
         "servers": [{
           "address": "127.0.0.1",
-	  "port": 2333
-	}]
+	        "port": 2333
+	      }]
       },
-      "tag": "transit"
+      "tag": "h2s"
     }
   ],
   "inboundDetour": [
     {
-      "port": 1088, 
-      "listen": "127.0.0.1", 
-      "protocol": "socks", 
+      "port": 1088,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
       "settings": {
-        "auth": "noauth", 
-        "timeout": 300, 
+        "auth": "noauth",
+        "timeout": 300,
         "udp": true
       }
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 50001,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "network": "tcp",
+        "port": 443
+      },
+      "tag": "campus"
     }
-  ], 
+  ],
   "outbound": {
-    "protocol": "vmess", 
+    "protocol": "vmess",
     "settings": {
       "vnext": [
         {
           "users": [
             {
-              "id": "3a759c97-4482-4853-beab-b99fab7a0fa8", 
-              "alterId": 64, 
+              "id": "3a759c97-4482-4853-beab-b99fab7a0fa8",
+              "alterId": 64,
               "security": "aes-128-gcm"
             }
-          ], 
-          "address": "ttrss.dreamof.net", 
-          "port": 10000
+          ],
+          "address": "127.0.0.1",
+          "port": 50001
         }
       ]
-    }, 
-    "streamSettings": {
-      "network": "tcp", 
-      "security": "tls"
-    }, 
-    "proxySettings": {
-      "tag": "transit"
     },
-    "tag": "proxy"
+    "streamSettings": {
+      "network": "tcp",
+      "security": "tls"
+    }
   },
   "dns": {
     "servers": [
       "localhost"
     ]
-  }, 
+  },
   "inbound": {
-    "port": 1086, 
-    "listen": "127.0.0.1", 
-    "protocol": "http", 
+    "port": 1086,
+    "listen": "127.0.0.1",
+    "protocol": "http",
     "settings": {
       "timeout": 300
     }
-  }, 
+  },
   "routing": {
+    "strategy": "rules",
     "settings": {
-      "rules": [
-        {
-          "type": "field",
-	  "ip": [
-	    "192.168.0.0/16",
-	    "10.0.0.0/8",
-	    "172.16.0.0/12",
-	    "127.0.0.0/8",
-	    "geoip:cn",
-	    "103.88.47.240/24",
-	    "47.91.28.17/24"
-	  ],
-          "outboundTag": "direct"
-        }, 
-        {
-          "type": "field",
-	  "domain": [
-	    "geosite:cn"
-	  ],
-          "outboundTag": "direct"
-        }
-      ], 
-      "domainStrategy": "IPIfNonMatch"
-    }, 
-    "strategy": "rules"
+      "rules": [{
+        "type": "field",
+        "inboundTag": ["campus"],
+        "outboundTag": "h2s"
+      }]
+    }
   }
 }
 
