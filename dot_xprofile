@@ -1,6 +1,0 @@
-## fcitx5
-INPUT_METHOD=fcitx5
-GTM_IM_MODULE=fcitx5
-QT_IM_MODULE=fcitx5
-XMODIFILERS=\@im=fcitx5
-
