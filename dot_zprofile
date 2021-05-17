@@ -1,0 +1,18 @@
+## yarn
+export PATH="$PATH:$(yarn global bin)"
+
+## Ruby
+export PATH="$PATH:$(ruby -e 'print Gem.user_dir')/bin"
+export GEM_HOME=$HOME/.gem
+
+## Rust
+export PATH=$PATH:$HOME/.cargo/bin
+export RUSTUP_HOME=$HOME/.rustup
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+## Repo
+export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
+
+## Misc
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
