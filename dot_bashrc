@@ -160,5 +160,5 @@ indent-libvirt() {
          --no-tabs "$@"
 }
 
-EDITOR="nvim"
-export EDITOR
+if [ -e /home/luke/.nix-profile/etc/profile.d/nix.sh ]; then . /home/luke/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+

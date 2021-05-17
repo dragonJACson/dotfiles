@@ -160,5 +160,3 @@ if [[ $(ps --no-header -p $PPID -o comm) =~ alacritty ]]; then
         xprop -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 -id $wid; done
 fi
 
-PATH=$PATH:~/bin/
-export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'

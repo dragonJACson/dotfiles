@@ -1,0 +1,34 @@
+[user]
+	name = {{ .gitconfig.name }}
+	email = {{ .gitconfig.email }}
+	signingkey = {{ .gitconfig.signingkey }}
+[color]
+	ui = auto
+[gitreview]
+	username = Luke Yue
+[review "review.mokee.org"]
+	username = Luke Yue
+[http]
+  postBuffer = 1048576000
+[pack]
+  window = 0
+  windowMemory = 100m
+  threads = 1
+  packSizeLimit = 1000m
+  SizeLimit = 100m
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[url "https://github.com/"]
+	insteadOf = git://github.com/
+[core]
+  gitproxy = /home/luke/bin/socks5proxywrapper
+  pager = delta --plus-color="#012800" --minus-color="#340001" --theme='OneHalfDark'
+[interactive]
+  diffFilter = delta --color-only
+[alias]
+  change-of-last-month = !sh -c 'git log --format=\"%s (%h)\" --reverse --grep \"^\\(docs\\|feat\\|fix\\|perf\\|refactor\\|test\\)\" --since=`date -v-1m +\"%Y-%m-01\"` --before=`date +\"%Y-%m-01\"` | sed \"s/([^)]*):/:/\" | sort -k1,1 -s' 
+[commit]
+	template = /home/luke/dotfiles/commit.template
